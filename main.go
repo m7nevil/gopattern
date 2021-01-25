@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/m7nevil/gopattern/behavior"
+	"github.com/m7nevil/gopattern/ioc"
 	"github.com/m7nevil/gopattern/structor"
 	"log"
 )
@@ -31,7 +32,8 @@ func (h *Handler3) Handle(request interface{}) {
 
 func main()  {
 	//testChain()
-	testDecorator()
+	//testDecorator()
+	testIoc()
 }
 
 func testChain()  {
@@ -53,4 +55,28 @@ func testDecorator()  {
 	pd.WriteData(ed.ReadData())
 
 	log.Println(pd.ReadData())
+}
+
+func testIoc() {
+	container := &ioc.Container{}
+	container.Bind("superman", func(c *ioc.Container, abName string) *ioc.SuperMan {
+		ab, _ := container.Make(abName).(ioc.Ability)
+		return ioc.NewSuperMan(ab)
+	})
+
+	container.Bind("xpower", func(c *ioc.Container) ioc.Ability {
+		return &ioc.XPower{}
+	})
+	container.Bind("holyshit", func(c *ioc.Container) ioc.Ability {
+		return &ioc.HolyShit{}
+	})
+	container.Bind("superbomb", &ioc.SuperBomb{})
+
+	sp1, _ := container.Make("superman", "xpower").(*ioc.SuperMan)
+	sp2, _ := container.Make("superman", "holyshit").(*ioc.SuperMan)
+	sp3, _ := container.Make("superman", "superbomb").(*ioc.SuperMan)
+	//
+	sp1.UsePower()
+	sp2.UsePower()
+	sp3.UsePower()
 }
