@@ -1,3 +1,3 @@
 module github.com/m7nevil/gopattern
 
-go 1.15
+go 1.16

@@ -1,17 +1,27 @@
 package behavior
 
-type EventManager struct {
-	listeners map[string]EventListener
+import "log"
+
+type Editor struct {
+	Em EventManager
+	data interface{}
 }
 
-type EventListener interface {
-	Update(filename string)
+func (e Editor) setData(data interface{}) {
+	e.data = data
+	e.Em.notify("setData", data)
 }
 
-func (m *EventManager) subscribe(eventType string, listener EventListener)  {
-	m.listeners[eventType] = listener
+func NewEditor() *Editor{
+	return &Editor{Em: EventManager{}}
 }
 
-func (m *EventManager) unsubscribe(eventType string)  {
-	delete(m.listeners, eventType)
+type LogListener struct {}
+func (l LogListener) Update(data interface{}) {
+	log.Println("write log:", data)
+}
+
+type EmailListener struct {}
+func (e EmailListener) Update(data interface{})  {
+	log.Println("Send Email:", data)
 }

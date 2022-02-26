@@ -48,10 +48,10 @@ func (ls *LockedState) ClickPlay() {
 	ls.player.SetState(ls)
 }
 func (ls *LockedState) ClickNext() {
-	ls.player.SetState()
+	ls.player.SetState(ls)
 }
 func (ls *LockedState) ClickPrevious() {
-
+	ls.player.SetState(ls)
 }
 
 

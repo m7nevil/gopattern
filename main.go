@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/m7nevil/gopattern/behavior"
 	"github.com/m7nevil/gopattern/ioc"
 	"github.com/m7nevil/gopattern/structor"
@@ -33,7 +34,8 @@ func (h *Handler3) Handle(request interface{}) {
 func main()  {
 	//testChain()
 	//testDecorator()
-	testIoc()
+	//testIoc()
+	testT()
 }
 
 func testChain()  {
@@ -79,4 +81,15 @@ func testIoc() {
 	sp1.UsePower()
 	sp2.UsePower()
 	sp3.UsePower()
+}
+func testT()  {
+	printSlice[int]([]int{1,2,3,4,5,6})
+	printSlice[float64]([]float64{1.1,2.2,3.3,4.4,5.5,6.6})
+	printSlice[string]([]string{"a","b","c","d"})
+}
+
+func printSlice[T any](s []T) {
+	for _, t := range s {
+		fmt.Println(t)
+	}
 }
